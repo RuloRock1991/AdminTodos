@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Development
+Pasos para levantar la app en desarrollo
 
-## Getting Started
-
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+0. Ejecutar el comando
+```
+npx prisma init
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+1. levantar la base de datos
+```
+https://console.neon.tech/app/projects
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. Reemplezar el DATABASE_URL por el que aparece en Neon.tech en el archivo .env
+```
+DATABASE_URL="postgresql://raev0hardcore:O7f2rYHwaXDR@ep-tiny-wind-a5ysgymj.us-east-2.aws.neon.tech/todos-db?schema=todo?sslmode=require&pgbouncer=true"
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+3. Agregar el DATABASE_URL en el objeto datasource db en el archivo schema.prisma
+```
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+}
+```
 
-## Learn More
+4. Ejecutar los Prisma Commands
+```
+npx prisma generate
+npx prisma migrate dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+5. Ejecutar el SEED para [crear la base de datos local](localhost:3000/api/seed)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Prisma Commands
+Comando para sincronizar el archivo shema.prisma con los schemas de la base de datos
+```
+npx prisma db pull 
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Comando para sincronizar la base de datos con los schemas del archivo shema.prisma (purga la base de datos)
+```
+npx prisma migrate dev 
+```
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Comando para sincronizar la base de datos con los schemas del archivo shema.prisma (sin purgar la base de datos)
+```
+npx prisma db push
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+
+
+# Production
+
+
+
+# Staging
